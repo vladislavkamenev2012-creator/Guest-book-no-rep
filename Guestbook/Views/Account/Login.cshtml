@@ -1,0 +1,40 @@
+﻿@model Guestbook.Models.ViewModels.LoginViewModel
+
+@{
+    ViewData["Title"] = "Аутентификация";
+}
+
+<h2>Вход в систему</h2>
+
+<form asp-action="Login" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group">
+        <label>Логин:</label>
+        <input asp-for="Login" class="form-control" />
+        <span asp-validation-for="Login" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Пароль:</label>
+        <input asp-for="Password" type="password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <br />
+    <button type="submit" class="btn btn-success">Войти</button>
+    <a asp-action="Register" class="btn btn-primary">Регистрация</a>
+    <a asp-action="GuestLogin" class="btn btn-info">Войти как гость</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(document).ready(function () {
+            $('form input').on('input', function () {
+                $(this).valid();
+            });
+        });
+    </script>
+}

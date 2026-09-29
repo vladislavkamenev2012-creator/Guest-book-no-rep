@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Guestbook.Models.Message>
+
+@{
+    ViewData["Title"] = "Гостевая книга";
+    bool isAuth = ViewBag.IsAuthenticated ?? false;
+}
+
+<h2>Гостевая книга</h2>
+
+<div style="margin-bottom: 20px;">
+    @if (!isAuth)
+    {
+        <a asp-controller="Account" asp-action="Login">Вход в систему</a>
+        <span> | </span>
+        <a asp-controller="Account" asp-action="Register">Регистрация</a>
+    }
+    else
+    {
+        <span>Добро пожаловать, <b>@ViewBag.UserName</b>!</span>
+        <a asp-controller="Account" asp-action="Logout" class="btn btn-secondary" style="margin-left: 10px;">Выход</a>
+    }
+</div>
+
+@if (isAuth)
+{
+    <form asp-action="AddMessage" method="post" style="margin-bottom: 30px;">
+        <div class="form-group">
+            <label>Введите сообщение:</label>
+            <textarea name="messageText" class="form-control" rows="3" required></textarea>
+        </div>
+        <br />
+        <button type="submit" class="btn btn-primary">Добавить сообщение</button>
+    </form>
+}
+
+<h3>Сообщения:</h3>
+<div class="messages">
+@foreach (var msg in Model)
+{
+    <div class="message">
+    <table border="1" cellpadding="8" cellspacing="0" style="width: 100%; margin-bottom: 15px;">
+        <tr>
+            <td><b>Пользователь:</b> @msg.User?.Name</td>
+            <td><b>Дата и время:</b> @msg.MessageDate.ToString("dd.MM.yyyy HH:mm:ss")</td>
+        </tr>
+        <tr>
+            <td colspan="2">@msg.MessageText</td>
+        </tr>
+    </table>
+    </div>
+}
+</div>
